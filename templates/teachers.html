@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>{% block title %} Our teachers: {% endblock %}</h3>
+
+    {% for teacher in teachers %}
+        <a href="{{ url_for('teacher', teacher_id=teacher['teacher_id']) }}">
+            <h6>{{ teacher['name'] ~ ' ' ~ teacher['surname'] }}</h6>
+        </a>
+    {% endfor %}
+{% endblock %}

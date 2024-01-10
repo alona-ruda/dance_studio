@@ -24,9 +24,10 @@ CREATE TABLE teacher_days (
     FOREIGN KEY (day_id) REFERENCES days(day_id)
 );
 
-CREATE TABLE classes (
-    class_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    class_name VARCHAR(50) NOT NULL
+CREATE TABLE dance_classes (
+    dance_class_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dance_class_name VARCHAR(50) NOT NULL,
+    dance_class_about TEXT
 );
 
 CREATE TABLE teacher_classes (

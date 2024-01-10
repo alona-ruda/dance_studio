@@ -19,6 +19,16 @@ def get_teacher(teacher_id):
     return teacher
 
 
+def get_dance_class(dance_class_id):
+    conn = get_db_connection()
+    dance_class = conn.execute('SELECT * FROM dance_classes WHERE dance_class_id = ?',
+                        (dance_class_id,)).fetchone()
+    conn.close()
+    if dance_class is None:
+        abort(404)
+    return dance_class
+
+
 app = Flask(__name__)
 
 
@@ -40,6 +50,16 @@ def teacher(teacher_id):
     teacher = get_teacher(teacher_id)
     return render_template('teacher.html', teacher=teacher)
 
+
+# @app.route('/class/<string:dance_class_name>')
+# def dance_class(dance_class_name):
+#     dance_class = get_dance_class(dance_class_name)
+#     return render_template('class.html', dance_class=dance_class)
+
+@app.route('/class/<int:dance_class_id>')
+def dance_class(dance_class_id):
+    dance_class = get_dance_class(dance_class_id)
+    return render_template('class.html', dance_class=dance_class)
 
 
 if __name__ == '__main__':

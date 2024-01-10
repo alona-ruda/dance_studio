@@ -32,14 +32,17 @@ days_for_insert = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satu
 for day in days_for_insert:
     cur.execute("INSERT INTO days (day_name) VALUES (?)", (day,))
 
-classes_to_insert = [
-    ('Choreography',),
-    ('Ballet',),
-    ('Hip Hop',),
-    ('Contemporary',),
+dance_classes_to_insert = [
+    ('Hip Hop', 'Learn energetic and dynamic hip hop dance moves. Suitable for all skill levels.'),
+    ('Ballet',
+     'Experience the grace and discipline of classical ballet. Perfect for beginners and experienced dancers alike.'),
+    ('Contemporary',
+     'Explore fluid movements and self-expression in contemporary dance. Open to dancers of all backgrounds.'),
+    ('Heels', 'Master the art of dancing in heels. A fun and empowering class for all genders and dance levels.'),
 ]
 
-cur.executemany("INSERT INTO classes (class_name) VALUES (?)", classes_to_insert)
+cur.executemany("INSERT INTO dance_classes (dance_class_name, dance_class_about) VALUES (?, ?)", dance_classes_to_insert)
+
 
 connection.commit()
 connection.close()

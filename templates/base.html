@@ -32,18 +32,17 @@
             </li>
 
 
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Classes
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    {% for dance_class in dance_classes %}
-                        <a class="dropdown-item" href="{{ url_for('dance_class', dance_class_id=dance_class['dance_class_id']) }}">{{ dance_class['dance_class_name'] }}</a>
-                        <div class="dropdown-divider"></div>
-                    {% endfor %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Classes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{ url_for('dance_class', dance_class_id='1') }}">Hip Hop</a>
+                  <a class="dropdown-item" href="{{ url_for('dance_class', dance_class_id='2') }}">Ballet</a>
+                  <a class="dropdown-item" href="{{ url_for('dance_class', dance_class_id='3') }}">Contemporary</a>
+                  <a class="dropdown-item" href="{{ url_for('dance_class', dance_class_id='4') }}">Heels</a>
                 </div>
-              </ul>
+              </li>
 
             </li>
 

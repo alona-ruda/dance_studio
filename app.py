@@ -82,6 +82,41 @@ def create_teacher():
     return render_template('create_teacher.html')
 
 
+@app.route('/teacher/<int:teacher_id>/edit', methods=('GET', 'POST'))
+def edit_teacher(teacher_id):
+    teacher = get_teacher(teacher_id)
+
+    if request.method == 'POST':
+        name = request.form['name']
+        surname = request.form['surname']
+
+        if not name:
+            flash('Name is required!')
+        elif not surname:
+            flash('Surname is required!')
+        else:
+            conn = get_db_connection()
+            conn.execute('UPDATE teachers SET name = ?, surname = ?'
+                         ' WHERE teacher_id = ?',
+                         (name, surname, teacher_id))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('teachers'))
+
+    return render_template('edit_teacher.html', teacher=teacher)
+
+
+@app.route('/teacher/<int:teacher_id>/delete', methods=('POST',))
+def delete_teacher(teacher_id):
+    teacher = get_teacher(teacher_id)
+    conn = get_db_connection()
+    conn.execute('DELETE FROM teachers WHERE teacher_id = ?', (teacher_id,))
+    conn.commit()
+    conn.close()
+    flash('"{}" was successfully deleted!'.format(teacher['name']))
+    return redirect(url_for('teachers'))
+
+
 # @app.route('/class/<string:dance_class_name>')
 # def dance_class(dance_class_name):
 #     dance_class = get_dance_class(dance_class_name)

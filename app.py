@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
 
@@ -40,7 +40,7 @@ def get_dance_class_by_name(dance_class_name):
 
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = 'your secret key'
 
 
 @app.route('/')
@@ -59,6 +59,27 @@ def teachers():
 def teacher(teacher_id):
     teacher = get_teacher(teacher_id)
     return render_template('teacher.html', teacher=teacher)
+
+
+@app.route('/create_teacher', methods=('GET', 'POST'))
+def create_teacher():
+    if request.method == 'POST':
+        name = request.form['name']
+        surname = request.form['surname']
+
+        if not name:
+            flash('Name is required!')
+        elif not surname:
+            flash('Surname is required!')
+        else:
+            conn = get_db_connection()
+            conn.execute('INSERT INTO teachers (name, surname) VALUES (?, ?)',
+                         (name, surname))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('teachers'))
+
+    return render_template('create_teacher.html')
 
 
 # @app.route('/class/<string:dance_class_name>')

@@ -8,4 +8,6 @@
             <h6>{{ teacher['name'] ~ ' ' ~ teacher['surname'] }}</h6>
         </a>
     {% endfor %}
+    <div><button><a href="{{url_for('create_teacher')}}">New Teacher</a></button></div>
+
 {% endblock %}

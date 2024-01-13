@@ -41,17 +41,39 @@ def get_dance_class_by_name(dance_class_name):
         abort(404)
     return dance_class
 
+def get_dance_classes_for_navbar():
+    conn = get_db_connection()
+    dance_classes = conn.execute('SELECT * FROM dance_classes').fetchall()
+    conn.close()
+    return dance_classes
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
+# @app.route('/')
+# def index():
+#     get_dance_classes_for_navbar()
+#     # get_dance_class(dance_class_id)
+#     # conn = get_db_connection()
+#     # dance_classes = conn.execute('SELECT * FROM dance_classes').fetchall()
+#     # conn.close()
+#     return render_template('index.html', dance_classes=dance_classes)
+
 
 @app.route('/')
 def index():
+    # get_dance_classes_for_navbar()
+    # get_dance_class(dance_class_id)
     conn = get_db_connection()
     dance_classes = conn.execute('SELECT * FROM dance_classes').fetchall()
     conn.close()
     return render_template('index.html', dance_classes=dance_classes)
+
+
+
+
+
 
 @app.route('/teachers')
 def teachers():

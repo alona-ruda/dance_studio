@@ -44,6 +44,21 @@
                 </div>
               </li>
 
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownS" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Classes from db
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {% for dance_class in dance_classes %}
+                      <p>
+                        <a class="dropdown-item" href="{{ url_for('dance_class', dance_class_id=dance_class['dance_class_id']) }}">
+                          {{ dance_class['dance_class_name'] }}
+                        </a>
+                      </p>
+                  {% endfor %}
+                </div>
+              </li>
+
             </li>
 
             </ul>
@@ -52,6 +67,7 @@
     <div class="container">
         {% block content %} {% endblock %}
     </div>
+    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

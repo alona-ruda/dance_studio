@@ -2,6 +2,9 @@ import sqlite3
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
+# from flask_login import LoginManager
+# login_manager = LoginManager()
+# login_manager.init_app(app)
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
@@ -45,7 +48,10 @@ app.config['SECRET_KEY'] = 'your secret key'
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    conn = get_db_connection()
+    dance_classes = conn.execute('SELECT * FROM dance_classes').fetchall()
+    conn.close()
+    return render_template('index.html', dance_classes=dance_classes)
 
 @app.route('/teachers')
 def teachers():

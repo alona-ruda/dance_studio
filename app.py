@@ -40,6 +40,15 @@ def get_dance_classes_for_navbar():
     return dance_classes
 
 
+def get_classes_of_teacher(teacher_id):
+    conn = get_db_connection()
+    classes_of_teacher = conn.execute('SELECT * FROM teacher_classes WHERE teacher_id = ?',
+                        (teacher_id,)).fetchall()
+    conn.close()
+    return classes_of_teacher
+
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
@@ -63,7 +72,15 @@ def teachers():
 def teacher(teacher_id):
     dance_classes = get_dance_classes_for_navbar()
     teacher = get_teacher(teacher_id)
-    return render_template('teacher.html', teacher=teacher, dance_classes=dance_classes)
+    classes_of_teacher = get_classes_of_teacher(teacher_id)
+    return render_template('teacher.html', teacher=teacher, dance_classes=dance_classes, classes_of_teacher=classes_of_teacher)
+
+
+# @app.route('/teacher/<int:teacher_id>')
+# def teacher(teacher_id):
+#     dance_classes = get_dance_classes_for_navbar()
+#     teacher = get_teacher(teacher_id)
+#     return render_template('teacher.html', teacher=teacher, dance_classes=dance_classes)
 
 
 @app.route('/create_teacher', methods=('GET', 'POST'))

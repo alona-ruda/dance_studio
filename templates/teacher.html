@@ -3,8 +3,8 @@
 {% block content %}
     <h2>{{ teacher['name'] ~ ' ' ~ teacher['surname'] }}</h2>
     <p>Classes:</p>
-                    {% for dance_class in dance_classes %}
-                        <p>{{ dance_class['dance_class_name'] }}</p>
+                    {% for classes_t in classes_of_teacher %}
+                        <p>{{ classes_t['teacher_id'] }}</p>
                         <div class="dropdown-divider"></div>
                     {% endfor %}
 {% endblock %}

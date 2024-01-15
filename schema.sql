@@ -11,6 +11,8 @@ CREATE TABLE teachers (
     surname VARCHAR(50) NOT NULL
 );
 
+
+--delete
 CREATE TABLE days (
     day_id INTEGER PRIMARY KEY AUTOINCREMENT,
     day_name VARCHAR(15) NOT NULL
@@ -23,6 +25,7 @@ CREATE TABLE teacher_days (
     FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),
     FOREIGN KEY (day_id) REFERENCES days(day_id)
 );
+--delete
 
 CREATE TABLE dance_classes (
     dance_class_id INTEGER PRIMARY KEY AUTOINCREMENT,

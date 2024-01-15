@@ -1,23 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{% block title %} Create a New Teacher {% endblock %}</h1>
+  <h1>{% block title %} Create a New Teacher {% endblock %}</h1>
 
-<form method="post">
+  <form method="post">
     <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" name="name"
-               placeholder="Post name" class="form-control"
-               value="{{ request.form['name'] }}"></input>
+      <label for="name">Name</label>
+      <input type="text" name="name" placeholder="Enter name" class="form-control" value="{{ request.form['name'] }}">
     </div>
+
     <div class="form-group">
-        <label for="surname">Surname</label>
-        <input type="text" name="surname"
-               placeholder="Post surname" class="form-control"
-               value="{{ request.form['surname'] }}"></input>
+      <label for="surname">Surname</label>
+      <input type="text" name="surname" placeholder="Enter surname" class="form-control" value="{{ request.form['surname'] }}">
     </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</form>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{{ url_for('teachers') }}" class="btn btn-dark">Back</a>
+  </form>
 {% endblock %}

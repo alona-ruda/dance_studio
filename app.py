@@ -12,7 +12,7 @@ def get_db_connection():
 def get_teacher(teacher_id):
     conn = get_db_connection()
     teacher = conn.execute('SELECT * FROM teachers WHERE teacher_id = ?',
-                        (teacher_id,)).fetchone()
+                           (teacher_id,)).fetchone()
     conn.close()
     if teacher is None:
         abort(404)
@@ -22,7 +22,8 @@ def get_teacher(teacher_id):
 def get_teacher_detail(teacher_id):
     conn = get_db_connection()
     teacher = conn.execute('''
-        SELECT teachers.teacher_id, teachers.name, teachers.surname, GROUP_CONCAT(dance_classes.dance_class_name) as class_names
+        SELECT teachers.teacher_id, teachers.name, teachers.surname, 
+        GROUP_CONCAT(dance_classes.dance_class_name) as class_names
         FROM teachers 
         LEFT JOIN teacher_classes ON teachers.teacher_id = teacher_classes.teacher_id
         LEFT JOIN dance_classes ON teacher_classes.class_id = dance_classes.dance_class_id
@@ -38,12 +39,11 @@ def get_teacher_detail(teacher_id):
 def get_dance_class(dance_class_id):
     conn = get_db_connection()
     dance_class = conn.execute('SELECT * FROM dance_classes WHERE dance_class_id = ?',
-                        (dance_class_id,)).fetchone()
+                               (dance_class_id,)).fetchone()
     conn.close()
     if dance_class is None:
         abort(404)
     return dance_class
-
 
 
 def get_dance_classes_for_navbar():
@@ -51,7 +51,6 @@ def get_dance_classes_for_navbar():
     dance_classes = conn.execute('SELECT * FROM dance_classes').fetchall()
     conn.close()
     return dance_classes
-
 
 
 app = Flask(__name__)
@@ -131,7 +130,7 @@ def delete_teacher(teacher_id):
     conn.commit()
     conn.close()
     flash('"{}" was successfully deleted!'.format(teacher['name']))
-    return redirect(url_for('teachers'), dance_classes=dance_classes)
+    return redirect(url_for('teachers', dance_classes=dance_classes))
 
 
 @app.route('/class/<int:dance_class_id>')
@@ -139,11 +138,6 @@ def dance_class(dance_class_id):
     dance_classes = get_dance_classes_for_navbar()
     dance_class = get_dance_class(dance_class_id)
     return render_template('class.html', dance_class=dance_class, dance_classes=dance_classes)
-
-
-
-
-
 
 
 if __name__ == '__main__':

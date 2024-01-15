@@ -17,15 +17,9 @@
                       class="form-control">{{ request.form['surname'] or teacher['surname'] }}</textarea>
         </div>
 
-        <div class="form-group">
-            <label for="teacher_id">Teacher ID</label>
-            <input type="text" name="teacher_id" placeholder="Teacher ID"
-                   class="form-control"
-                   value="{{ request.form['teacher_id'] or teacher['teacher_id'] }}">
-        </div>
 
         <div class="form-group">
-            <label for="class_ids">Select Classes</label>
+            <label for="class_id">Select Classes</label>
             <select name="class_ids" multiple class="form-control">
                 {% for class in all_classes %}
                     <option value="{{ class['class_id'] }}" {% if class['class_id'] in selected_classes %}selected{% endif %}>

@@ -5,34 +5,23 @@
 
     {% for row in teacher_class_data %}
         <p>
-            <a href="{{ url_for('teacher', teacher_id=teacher_class_data['teacher_id']) }}">
-                <h6>{{ row[0] ~ ' ' ~ row[1] }}</h6></a>
+            <a href="{{ url_for('teacher', teacher_id=row[0]) }}">
+                <h6>{{ row[1] ~ ' ' ~ row[2] }}</h6></a>
             <p>Classes:</p>
                 <ul>
-                    {% for class_name in row[2].split(',') %}
+                    {% for class_name in row[3].split(',') %}
                         <li>{{ class_name }}</li>
                     {% endfor %}
                 </ul>
-            <a href="{{ url_for('edit_teacher', teacher_id=teacher['teacher_id']) }}">
+            <a href="{{ url_for('edit_teacher', teacher_id=row[0]) }}">
                 <span class="badge badge-warning">Edit</span>
             </a>
         </p>
+    <div class="dropdown-divider"></div>
     {% endfor %}
 
-    {% for teacher in teachers %}
-        <p>
 
-                <h6>{{ teacher['name'] ~ ' ' ~ teacher['surname'] }}</h6>
-            </a>
-            <a href="{{ url_for('edit_teacher', teacher_id=teacher['teacher_id']) }}">
-                <span class="badge badge-warning">Edit</span>
-            </a>
-        </p>
-    {% endfor %}
     <div class="form-group">
-
         <a class="btn btn-primary" href="{{url_for('create_teacher') }}" role="button">New Teacher</a>
-
     </div>
-
 {% endblock %}

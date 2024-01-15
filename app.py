@@ -21,17 +21,6 @@ def get_teacher(teacher_id):
         abort(404)
     return teacher
 
-#################################
-# def teacherclass():
-#     conn = get_db_connection()
-#     teacher_class_data = conn.execute('''
-#         SELECT teachers.name, dance_classes.dance_class_name
-#         FROM teachers
-#         JOIN teacher_classes ON teachers.teacher_id = teacher_classes.teacher_id
-#         JOIN dance_classes ON teacher_classes.class_id = dance_classes.dance_class_id
-#     ''')
-#     conn.close()
-#     return teacher_class_data
 
 
 def get_dance_class(dance_class_id):
@@ -154,7 +143,7 @@ def dance_class(dance_class_id):
 def teachers():
     conn = get_db_connection()
     cursor = conn.execute('''
-        SELECT teachers.name, teachers.surname, GROUP_CONCAT(dance_classes.dance_class_name) as class_names
+        SELECT teachers.teacher_id, teachers.name, teachers.surname, GROUP_CONCAT(dance_classes.dance_class_name) as class_names
         FROM teachers
         JOIN teacher_classes ON teachers.teacher_id = teacher_classes.teacher_id
         JOIN dance_classes ON teacher_classes.class_id = dance_classes.dance_class_id

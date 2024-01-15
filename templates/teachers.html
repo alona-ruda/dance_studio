@@ -1,27 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h3>{% block title %} Our teachers: {% endblock %}</h3>
+  <h2>{% block title %} Our Teachers: {% endblock %}</h2>
 
-    {% for row in teacher_class_data %}
-        <p>
-            <a href="{{ url_for('teacher', teacher_id=row[0]) }}">
-                <h6>{{ row[1] ~ ' ' ~ row[2] }}</h6></a>
-            <p>Classes:</p>
-                <ul>
-                    {% for class_name in row[3].split(',') %}
-                        <li>{{ class_name }}</li>
-                    {% endfor %}
-                </ul>
-            <a href="{{ url_for('edit_teacher', teacher_id=row[0]) }}">
-                <span class="badge badge-warning">Edit</span>
-            </a>
-        </p>
-    <div class="dropdown-divider"></div>
-    {% endfor %}
-
-
-    <div class="form-group">
-        <a class="btn btn-primary" href="{{url_for('create_teacher') }}" role="button">New Teacher</a>
+  {% for teacher in teachers %}
+    <div>
+      <a href="{{ url_for('teacher', teacher_id=teacher['teacher_id']) }}">
+        <h5>{{ teacher['name'] ~ ' ' ~ teacher['surname'] }}</h5>
+      </a>
     </div>
+    <div class="dropdown-divider"></div>
+  {% endfor %}
+
+  <div class="form-group">
+    <a class="btn btn-primary" href="{{ url_for('create_teacher') }}" role="button">New Teacher</a>
+  </div>
 {% endblock %}

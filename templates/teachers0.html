@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>{% block title %} Our teachers: {% endblock %}</h3>
+
+    {% for teacher in teachers %}
+        <p>
+            <a href="{{ url_for('teacher', teacher_id=teacher['teacher_id']) }}">
+                <h6>{{ teacher['name'] ~ ' ' ~ teacher['surname'] }}</h6>
+            </a>
+            <a href="{{ url_for('edit_teacher', teacher_id=teacher['teacher_id']) }}">
+                <span class="badge badge-warning">Edit</span>
+            </a>
+        </p>
+    {% endfor %}
+    <div class="form-group">
+
+        <a class="btn btn-primary" href="{{url_for('create_teacher') }}" role="button">New Teacher</a>
+
+    </div>
+
+{% endblock %}

@@ -71,13 +71,13 @@ def index():
     return render_template('index.html', dance_classes=dance_classes)
 
 
-@app.route('/teachers')
-def teachers():
-    dance_classes = get_dance_classes_for_navbar()
-    conn = get_db_connection()
-    teachers = conn.execute('SELECT * FROM teachers').fetchall()
-    conn.close()
-    return render_template('teachers.html', teachers=teachers, dance_classes=dance_classes)
+# @app.route('/teachers')
+# def teachers():
+#     dance_classes = get_dance_classes_for_navbar()
+#     conn = get_db_connection()
+#     teachers = conn.execute('SELECT * FROM teachers').fetchall()
+#     conn.close()
+#     return render_template('teachers.html', teachers=teachers, dance_classes=dance_classes)
 
 
 @app.route('/teacher/<int:teacher_id>')
@@ -87,12 +87,6 @@ def teacher(teacher_id):
     classes_of_teacher = get_classes_of_teacher(teacher_id)
     return render_template('teacher.html', teacher=teacher, dance_classes=dance_classes, classes_of_teacher=classes_of_teacher)
 
-
-# @app.route('/teacher/<int:teacher_id>')
-# def teacher(teacher_id):
-#     dance_classes = get_dance_classes_for_navbar()
-#     teacher = get_teacher(teacher_id)
-#     return render_template('teacher.html', teacher=teacher, dance_classes=dance_classes)
 
 
 @app.route('/create_teacher', methods=('GET', 'POST'))
@@ -156,8 +150,8 @@ def dance_class(dance_class_id):
     return render_template('class.html', dance_class=dance_class, dance_classes=dance_classes)
 
 
-@app.route('/teacherclass')
-def teacherclass():
+@app.route('/teachers')
+def teachers():
     conn = get_db_connection()
     cursor = conn.execute('''
         SELECT teachers.name, teachers.surname, GROUP_CONCAT(dance_classes.dance_class_name) as class_names
@@ -168,7 +162,7 @@ def teacherclass():
     ''')
     teacher_class_data = cursor.fetchall()
     conn.close()
-    return render_template('teachers_and_classes.html', teacher_class_data=teacher_class_data)
+    return render_template('teachers.html', teacher_class_data=teacher_class_data)
 
 
 

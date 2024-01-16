@@ -12,21 +12,6 @@ CREATE TABLE teachers (
 );
 
 
---delete
-CREATE TABLE days (
-    day_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    day_name VARCHAR(15) NOT NULL
-);
-
-CREATE TABLE teacher_days (
-    teacher_id INTEGER,
-    day_id INTEGER,
-    PRIMARY KEY (teacher_id, day_id),
-    FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),
-    FOREIGN KEY (day_id) REFERENCES days(day_id)
-);
---delete
-
 CREATE TABLE dance_classes (
     dance_class_id INTEGER PRIMARY KEY AUTOINCREMENT,
     dance_class_name VARCHAR(50) NOT NULL,
@@ -35,8 +20,8 @@ CREATE TABLE dance_classes (
 
 CREATE TABLE teacher_classes (
     teacher_id INTEGER,
-    class_id INTEGER,
-    PRIMARY KEY (teacher_id, class_id),
+    dance_class_id INTEGER,
+    PRIMARY KEY (teacher_id, dance_class_id),
     FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),
-    FOREIGN KEY (class_id) REFERENCES classes(class_id)
+    FOREIGN KEY (dance_class_id) REFERENCES dance_classes(dance_class_id)
 );

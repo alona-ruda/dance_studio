@@ -82,21 +82,33 @@ def teacher(teacher_id):
 @app.route('/create_teacher', methods=('GET', 'POST'))
 def create_teacher():
     dance_classes = get_dance_classes_for_navbar()
+
+    conn = get_db_connection()
+    dance_classes_form = conn.execute('SELECT dance_class_id, dance_class_name FROM dance_classes').fetchall()
+    conn.close()
+
     if request.method == 'POST':
         name = request.form['name']
         surname = request.form['surname']
+        selected_classes = request.form.getlist('dance_classes_form')
+
         if not name:
             flash('Name is required!')
         elif not surname:
             flash('Surname is required!')
         else:
             conn = get_db_connection()
-            conn.execute('INSERT INTO teachers (name, surname) VALUES (?, ?)',
-                         (name, surname))
+            conn.execute('INSERT INTO teachers (name, surname) VALUES (?, ?)', (name, surname))
+            new_teacher_id = conn.execute('SELECT last_insert_rowid()').fetchone()[0]
+
+            for dance_class_id in selected_classes:
+                conn.execute('INSERT INTO teacher_classes (teacher_id, dance_class_id) VALUES (?, ?)',
+                             (new_teacher_id, dance_class_id))
+
             conn.commit()
             conn.close()
             return redirect(url_for('teachers'))
-    return render_template('create_teacher.html', dance_classes=dance_classes)
+    return render_template('create_teacher.html', dance_classes=dance_classes, dance_classes_form=dance_classes_form)
 
 
 @app.route('/teacher/<int:teacher_id>/edit', methods=('GET', 'POST'))

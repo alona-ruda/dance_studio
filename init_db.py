@@ -27,10 +27,6 @@ cur.execute("INSERT INTO teachers (name, surname) VALUES (?, ?)",
             ('Ava', 'Davis')
             )
 
-days_for_insert = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-
-for day in days_for_insert:
-    cur.execute("INSERT INTO days (day_name) VALUES (?)", (day,))
 
 dance_classes_to_insert = [
     ('Hip Hop', 'Learn energetic and dynamic hip hop dance moves. Suitable for all skill levels.'),
@@ -41,7 +37,8 @@ dance_classes_to_insert = [
     ('Heels', 'Master the art of dancing in heels. A fun and empowering class for all genders and dance levels.'),
 ]
 
-cur.executemany("INSERT INTO dance_classes (dance_class_name, dance_class_about) VALUES (?, ?)", dance_classes_to_insert)
+cur.executemany("INSERT INTO dance_classes (dance_class_name, dance_class_about) VALUES (?, ?)",
+                dance_classes_to_insert)
 
 
 connection.commit()

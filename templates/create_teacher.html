@@ -28,7 +28,7 @@
         <label for="classes">Select Classes</label>
         {% for dance_class in dance_classes_form %}
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="classes" value="{{ dance_class['dance_class_id'] }}">
+                <input class="form-check-input" type="checkbox" name="dance_classes_form" value="{{ dance_class['dance_class_id'] }}">
                 <label class="form-check-label" for="{{ dance_class['dance_class_id'] }}">
                     {{ dance_class['dance_class_name'] }}
                 </label>

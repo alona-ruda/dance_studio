@@ -26,7 +26,7 @@ def get_teacher_detail(teacher_id):
         GROUP_CONCAT(dance_classes.dance_class_name) as class_names
         FROM teachers 
         LEFT JOIN teacher_classes ON teachers.teacher_id = teacher_classes.teacher_id
-        LEFT JOIN dance_classes ON teacher_classes.class_id = dance_classes.dance_class_id
+        LEFT JOIN dance_classes ON teacher_classes.dance_class_id = dance_classes.dance_class_id
         WHERE teachers.teacher_id = ?
         GROUP BY teachers.teacher_id
     ''', (teacher_id,)).fetchall()

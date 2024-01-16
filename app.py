@@ -114,22 +114,37 @@ def create_teacher():
 @app.route('/teacher/<int:teacher_id>/edit', methods=('GET', 'POST'))
 def edit_teacher(teacher_id):
     dance_classes = get_dance_classes_for_navbar()
-    teacher = get_teacher(teacher_id)
+
+    conn = get_db_connection()
+    # dance_classes_form = conn.execute('SELECT dance_class_id, dance_class_name FROM dance_classes').fetchall()
+    # conn.close()
+
+    # teacher = get_teacher(teacher_id)
+
     if request.method == 'POST':
         name = request.form['name']
         surname = request.form['surname']
+
         if not name:
             flash('Name is required!')
         elif not surname:
             flash('Surname is required!')
         else:
-            conn = get_db_connection()
+            # conn = get_db_connection()
             conn.execute('UPDATE teachers SET name = ?, surname = ?'
                          ' WHERE teacher_id = ?',
                          (name, surname, teacher_id))
             conn.commit()
-            conn.close()
-            return redirect(url_for('teachers'))
+
+        selected_classes = request.form.getlist('dance_classes')
+        conn.execute('DELETE FROM teacher_classes WHERE teacher_id = ?', (teacher_id,))
+        for dance_class_id in selected_classes:
+            conn.execute('INSERT INTO teacher_classes (teacher_id, dance_class_id) VALUES (?, ?)',
+                         (teacher_id, dance_class_id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('teachers'))
+
     return render_template('edit_teacher.html', teacher=teacher, dance_classes=dance_classes)
 
 

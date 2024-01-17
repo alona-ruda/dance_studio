@@ -17,14 +17,14 @@
 
   <form method="post">
     <div class="form-group">
-      <label for="name">Name</label>
+      <h6><label for="name">Name</label></h6>
       <input type="text" name="name" placeholder="Enter name"
              class="form-control"
              value="{{ request.form['name'] or teacher['name'] }}">
     </div>
 
     <div class="form-group">
-      <label for="surname">Surname</label>
+      <h6><label for="surname">Surname</label></h6>
       <input type="text" name="surname" placeholder="Enter surname"
              class="form-control"
              value="{{ request.form['surname'] or teacher['surname'] }}">
@@ -32,16 +32,16 @@
 
 
       <div class="form-group">
-        <label for="classes">Select Classes</label>
-        {% for dance_class in dance_classes %}
+        <h6><label for="classes">Select Classes</label></h6>
+    {% for dance_class in dance_classes %}
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="teacher_classes" value="{{ dance_class['dance_class_id'] }}"
-                   {% if dance_class['dance_class_name'] in classes_of_teacher[0] %}checked{% endif %}>
+                   {% if dance_class['dance_class_id'] in classes_of_teacher|map(attribute='dance_class_id') %}checked{% endif %}>
             <label class="form-check-label" for="{{ dance_class['dance_class_id'] }}">
                 {{ dance_class['dance_class_name'] }}
             </label>
         </div>
-        {% endfor %}
+    {% endfor %}
     </div>
 
 

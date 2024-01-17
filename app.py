@@ -110,42 +110,44 @@ def create_teacher():
             return redirect(url_for('teachers'))
     return render_template('create_teacher.html', dance_classes=dance_classes, dance_classes_form=dance_classes_form)
 
+def get_classes_of_teacher(teacher_id):
+    conn = get_db_connection()
+    classes_of_teacher = conn.execute('''
+        SELECT teachers.teacher_id, dance_classes.dance_class_id, dance_classes.dance_class_name
+        FROM teachers 
+        LEFT JOIN teacher_classes ON teachers.teacher_id = teacher_classes.teacher_id
+        LEFT JOIN dance_classes ON teacher_classes.dance_class_id = dance_classes.dance_class_id
+        WHERE teachers.teacher_id = ?
+    ''', (teacher_id,)).fetchall()
+    conn.close()
+
+    return classes_of_teacher
 
 @app.route('/teacher/<int:teacher_id>/edit', methods=('GET', 'POST'))
 def edit_teacher(teacher_id):
     dance_classes = get_dance_classes_for_navbar()
 
-    conn = get_db_connection()
-    # dance_classes_form = conn.execute('SELECT dance_class_id, dance_class_name FROM dance_classes').fetchall()
-    # conn.close()
-
-    # teacher = get_teacher(teacher_id)
+    teacher = get_teacher(teacher_id)
+    classes_of_teacher = get_classes_of_teacher(teacher_id)
 
     if request.method == 'POST':
         name = request.form['name']
         surname = request.form['surname']
+        teacher_classes = request.form.getlist('teacher_classes')
 
-        if not name:
-            flash('Name is required!')
-        elif not surname:
-            flash('Surname is required!')
-        else:
-            # conn = get_db_connection()
-            conn.execute('UPDATE teachers SET name = ?, surname = ?'
-                         ' WHERE teacher_id = ?',
-                         (name, surname, teacher_id))
-            conn.commit()
-
-        selected_classes = request.form.getlist('dance_classes')
+        conn = get_db_connection()
+        conn.execute('UPDATE teachers SET name = ?, surname = ? WHERE teacher_id = ?',
+                     (name, surname, teacher_id))
         conn.execute('DELETE FROM teacher_classes WHERE teacher_id = ?', (teacher_id,))
-        for dance_class_id in selected_classes:
+        for class_id in teacher_classes:
             conn.execute('INSERT INTO teacher_classes (teacher_id, dance_class_id) VALUES (?, ?)',
-                         (teacher_id, dance_class_id))
+                         (teacher_id, class_id))
         conn.commit()
         conn.close()
         return redirect(url_for('teachers'))
 
-    return render_template('edit_teacher.html', teacher=teacher, dance_classes=dance_classes)
+    return render_template('edit_teacher.html', teacher=teacher, classes_of_teacher=classes_of_teacher,
+                           dance_classes=dance_classes)
 
 
 @app.route('/teacher/<int:teacher_id>/delete', methods=('POST',))

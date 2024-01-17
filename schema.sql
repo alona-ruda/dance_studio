@@ -1,8 +1,6 @@
 
 DROP TABLE IF EXISTS teachers;
-DROP TABLE IF EXISTS days;
-DROP TABLE IF EXISTS teacher_days;
-DROP TABLE IF EXISTS classes;
+DROP TABLE IF EXISTS dance_classes;
 DROP TABLE IF EXISTS teacher_classes;
 
 CREATE TABLE teachers (

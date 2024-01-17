@@ -1,4 +1,3 @@
-
 DROP TABLE IF EXISTS teachers;
 DROP TABLE IF EXISTS dance_classes;
 DROP TABLE IF EXISTS teacher_classes;

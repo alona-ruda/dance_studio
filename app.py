@@ -53,6 +53,20 @@ def get_dance_classes_for_navbar():
     return dance_classes
 
 
+def get_classes_of_teacher(teacher_id):
+    conn = get_db_connection()
+    classes_of_teacher = conn.execute('''
+        SELECT teachers.teacher_id, dance_classes.dance_class_id, dance_classes.dance_class_name
+        FROM teachers 
+        LEFT JOIN teacher_classes ON teachers.teacher_id = teacher_classes.teacher_id
+        LEFT JOIN dance_classes ON teacher_classes.dance_class_id = dance_classes.dance_class_id
+        WHERE teachers.teacher_id = ?
+    ''', (teacher_id,)).fetchall()
+    conn.close()
+
+    return classes_of_teacher
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
@@ -110,18 +124,6 @@ def create_teacher():
             return redirect(url_for('teachers'))
     return render_template('create_teacher.html', dance_classes=dance_classes, dance_classes_form=dance_classes_form)
 
-def get_classes_of_teacher(teacher_id):
-    conn = get_db_connection()
-    classes_of_teacher = conn.execute('''
-        SELECT teachers.teacher_id, dance_classes.dance_class_id, dance_classes.dance_class_name
-        FROM teachers 
-        LEFT JOIN teacher_classes ON teachers.teacher_id = teacher_classes.teacher_id
-        LEFT JOIN dance_classes ON teacher_classes.dance_class_id = dance_classes.dance_class_id
-        WHERE teachers.teacher_id = ?
-    ''', (teacher_id,)).fetchall()
-    conn.close()
-
-    return classes_of_teacher
 
 @app.route('/teacher/<int:teacher_id>/edit', methods=('GET', 'POST'))
 def edit_teacher(teacher_id):

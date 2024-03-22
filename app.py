@@ -171,5 +171,5 @@ def dance_class(dance_class_id):
     return render_template('class.html', dance_class=dance_class, dance_classes=dance_classes)
 
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+# if __name__ == '__main__':
+#     app.run(debug=True, port=5000)
